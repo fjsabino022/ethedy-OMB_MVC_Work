@@ -34,8 +34,13 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Syncfusion.Core, Version=13.1450.0.21, Culture=neutral, PublicKeyToken=632609b4d040f6b4, processorArchitecture=MSIL" />
+    <Reference Include="Syncfusion.Shared.Wpf, Version=13.1450.0.21, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89, processorArchitecture=MSIL" />
+    <Reference Include="Syncfusion.Tools.WPF, Version=13.1450.0.21, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89, processorArchitecture=MSIL" />
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -44,9 +49,12 @@
     <Reference Include="System.Xaml">
       <RequiredTargetFramework>4.0</RequiredTargetFramework>
     </Reference>
+    <Reference Include="UIAutomationProvider" />
+    <Reference Include="UIAutomationTypes" />
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
+    <Reference Include="WindowsFormsIntegration" />
   </ItemGroup>
   <ItemGroup>
     <ApplicationDefinition Include="App.xaml">
@@ -56,6 +64,21 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="ViewModel\LoginViewModel.cs" />
+    <Compile Include="ViewModel\MainViewModel.cs" />
+    <Compile Include="View\LoginCredenciales.xaml.cs">
+      <DependentUpon>LoginCredenciales.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\LoginPerfiles.xaml.cs">
+      <DependentUpon>LoginPerfiles.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\ViewServices.cs" />
+    <Compile Include="View\winLogin.xaml.cs">
+      <DependentUpon>winLogin.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\winMain.xaml.cs">
+      <DependentUpon>winMain.xaml</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
@@ -87,6 +110,52 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Imagenes\decrypt.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Page Include="View\LoginCredenciales.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\LoginPerfiles.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\winLogin.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\winMain.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <Resource Include="Imagenes\session.png" />
+    <Resource Include="Imagenes\session_girl.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Imagenes\user.png" />
+    <Resource Include="Imagenes\user_awake.png" />
+    <Resource Include="Imagenes\user_sleep.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Imagenes\export-48.png" />
+    <Resource Include="Imagenes\idea-48.png" />
+    <Resource Include="Imagenes\key-48.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Imagenes\Horror.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Infraestructura\Infraestructura.csproj">
+      <Project>{d3b599c3-913f-4ec3-ac1c-c08b860612b5}</Project>
+      <Name>Infraestructura</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Servicios\Servicios.csproj">
+      <Project>{beb60c0a-2bb2-4490-8ecc-362e50f463e0}</Project>
+      <Name>Servicios</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
