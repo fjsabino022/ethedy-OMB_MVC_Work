@@ -26,12 +26,15 @@ namespace WindowsOMB.View
     public LoginCredenciales(LoginViewModel vm)
     {
       InitializeComponent();
+      _viewModel = vm;
     }
 
     private void ControlLoaded(object sender, RoutedEventArgs e)
     {
+      this.DataContext = _viewModel;
+
+      //  btnIngresar.CommandBindings.Add(new CommandBinding(_viewModel.ComandoIngresar));
       txtUsuario.Focus();
     }
-
   }
 }

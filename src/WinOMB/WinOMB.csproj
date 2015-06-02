@@ -156,6 +156,10 @@
     <Resource Include="Imagenes\Horror.png" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Entidades\Entidades.csproj">
+      <Project>{c9c15f5e-b8ee-47b1-9bf7-b056bf220027}</Project>
+      <Name>Entidades</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Infraestructura\Infraestructura.csproj">
       <Project>{d3b599c3-913f-4ec3-ac1c-c08b860612b5}</Project>
       <Name>Infraestructura</Name>

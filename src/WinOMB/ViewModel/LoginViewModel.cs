@@ -6,8 +6,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using System.Windows.Navigation;
 
 using Servicios;
+using Entidades;
+using Entidades.Seguridad;
 
 namespace WindowsOMB.ViewModel
 {
@@ -18,13 +21,22 @@ namespace WindowsOMB.ViewModel
 
     public event PropertyChangedEventHandler PropertyChanged;
 
+    public event EventHandler LoginCancel;
+
     public LoginViewModel()
     {
+      UsuarioModel = new Usuario();
+      //  UsuarioModel.Login = "mburns";
+
       ComandoIngresar = new CommandIngresar(() =>
       {
-        Debug.WriteLine("Llamar a Login Usuario");
+        Debug.WriteLine(string.Format("Llamar a Login Usuario {0}", UsuarioModel.Login));
       });
-      ComandoCancelar = new CommandCancelar(null);
+      ComandoCancelar = new CommandCancelar(() =>
+      {
+        if (LoginCancel != null)
+          LoginCancel(this, null);
+      });
     }
 
     public CommandIngresar ComandoIngresar
@@ -44,6 +56,17 @@ namespace WindowsOMB.ViewModel
       {
         _cmdCancelar = value;
         OnPropertyChanged("ComandoCancelar");
+      }
+    }
+
+    private Usuario _usuario;
+    public Usuario UsuarioModel
+    {
+      get { return _usuario;  }
+      set
+      {
+        _usuario = value;
+        OnPropertyChanged("UsuarioModel");
       }
     }
 

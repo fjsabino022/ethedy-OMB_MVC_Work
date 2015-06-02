@@ -27,7 +27,13 @@ namespace WindowsOMB.View
       InitializeComponent();
 
       _viewModel = new LoginViewModel();
+      _viewModel.LoginCancel += LoginCancel;
       loginContainer.Content = new LoginCredenciales(_viewModel);
+    }
+
+    private void LoginCancel(object sender, EventArgs args)
+    {
+      this.Close();
     }
   }
 }
