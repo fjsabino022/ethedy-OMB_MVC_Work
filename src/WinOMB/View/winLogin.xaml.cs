@@ -11,6 +11,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using WindowsOMB.ViewModel;
 
 namespace WindowsOMB.View
 {
@@ -19,9 +20,14 @@ namespace WindowsOMB.View
   /// </summary>
   public partial class winLogin : Window
   {
+    private LoginViewModel _viewModel;
+
     public winLogin()
     {
       InitializeComponent();
+
+      _viewModel = new LoginViewModel();
+      loginContainer.Content = new LoginCredenciales(_viewModel);
     }
   }
 }
