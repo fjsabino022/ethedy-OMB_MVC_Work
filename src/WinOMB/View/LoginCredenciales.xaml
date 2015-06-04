@@ -5,7 +5,8 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              mc:Ignorable="d" 
              xmlns:local="clr-namespace:WindowsOMB.ViewModel"
-             d:DesignHeight="300" d:DesignWidth="300" FontFamily="Segoe UI" FontSize="14" Loaded="ControlLoaded">
+             d:DesignHeight="300" d:DesignWidth="300" FontFamily="Segoe UI" FontSize="14" 
+             Loaded="ControlLoaded">
   <UserControl.Resources>
     <Style TargetType="Button">
       <Setter Property="Width" Value="100"></Setter>
@@ -26,9 +27,11 @@
     </Grid.ColumnDefinitions>
     <Label Grid.Column="0" Grid.Row="0" VerticalAlignment="Center">Usuario</Label>
     <Label Grid.Column="0" Grid.Row="1" VerticalAlignment="Center">Password</Label>
-    <TextBox Name="txtUsuario" Grid.Column="1" Grid.Row="0" Margin="10" Text="{Binding UsuarioModel.Login}"></TextBox>
-    <TextBox Name="txtPassword" Grid.Column="1" Grid.Row="1" Margin="10" Text="{Binding Path=Password}"
-             Foreground="{Binding ElementName=txtPassword, Path=Background}"></TextBox>
+    <TextBox Name="txtUsuario" Grid.Column="1" Grid.Row="0" Margin="10" 
+             Text="{Binding Path=UsuarioModel.Login, UpdateSourceTrigger=PropertyChanged}"></TextBox>
+    <TextBox Name="txtPassword" Grid.Column="1" Grid.Row="1" Margin="10" 
+             Text="{Binding Path=Password, UpdateSourceTrigger=PropertyChanged}"
+             Foreground="{Binding ElementName=txtPassword, Path=Background}" GotFocus="PasswordFocus"></TextBox>
     <StackPanel Grid.Row="3" Grid.ColumnSpan="2" Orientation="Horizontal" FlowDirection="RightToLeft">
       <Button Name="btnIngresar" IsDefault="True" Content="Ingresar" Command="{Binding ComandoIngresar}"></Button>
       <Button Name="btnCancelar" Content="Cancelar" IsCancel="True" Command="{Binding ComandoCancelar}"></Button>

@@ -9,8 +9,12 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using System.Windows.Navigation;
 
+using System.Threading;
+
+using Infraestructura;
 using Servicios;
 using Entidades;
+using Database;
 
 namespace WindowsOMB.ViewModel
 {
@@ -44,6 +48,8 @@ namespace WindowsOMB.ViewModel
         if ((UsuarioModel = srv.Login(UsuarioModel, Password)) != null)
         {
           Perfiles = new ObservableCollection<Perfil>(UsuarioModel.Perfiles);
+          PerfilSeleccionado = Perfiles[0];
+
           OnLoginOK();
         }
         else
@@ -52,7 +58,12 @@ namespace WindowsOMB.ViewModel
 
       ComandoIngresarPerfil = new CommandIngresar(() =>
       {
+        SecurityServices srv = new SecurityServices();
+
+        Context.Current.Sesion = srv.CrearSesion(UsuarioModel, PerfilSeleccionado);
+
         Debug.WriteLine(_perfil.Descripcion);
+
         OnLoginOK();
       });
 
@@ -60,6 +71,8 @@ namespace WindowsOMB.ViewModel
       {
         OnLoginCancel();
       });
+
+      PerfilSeleccionado = null;
     }
 
     public CommandIngresar ComandoIngresar
@@ -135,6 +148,19 @@ namespace WindowsOMB.ViewModel
       }
     }
 
+    public void Sorprender()
+    {
+      Task tsk = new Task(() =>
+      {
+        Thread.Sleep(3000);
+        //  cambiamos el nombre del usuario 
+        _usuario.Login += _usuario.Login;
+      });
+      tsk.Start();
+    }
+
+    #region LANZADORES DE EVENTOS
+
     private void OnPropertyChanged(string prop)
     {
       if (PropertyChanged != null)
@@ -152,6 +178,13 @@ namespace WindowsOMB.ViewModel
       if (LoginCancel != null)
         LoginCancel(this, new EventArgs());
     }
+
+    private void OnLoginError(string errMsg)
+    {
+      //  TODO enviar evento de error 
+    }
+
+    #endregion
   }
 
   public class CommandIngresar : ICommand

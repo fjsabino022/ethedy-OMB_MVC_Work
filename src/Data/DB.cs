@@ -2,6 +2,9 @@
 using System.Collections.Generic;
 using Entidades;
 
+using System.Threading.Tasks;
+using System.Threading;
+
 namespace Database
 {
   //  TODO Cambiar clase DB por DbContext usando Entity Framework

@@ -29,12 +29,19 @@ namespace WindowsOMB.View
       InitializeComponent();
 
       _viewModel = new TestViewModel();
+      this.DataContext = _viewModel;
+
       Context.Current.ServiceProvider.AddService(typeof(LoginService), new LoginService());
     }
 
     private void TestLoaded(object sender, RoutedEventArgs e)
     {
       _viewModel.TryLogin();
+      if (Context.Current.Sesion != null)
+      {
+        txtUsuario.Text = string.Format("Usuario conectado: {0}", Context.Current.Sesion.FullName);
+        txtPerfil.Text = string.Format("Perfil Activo: {0}", Context.Current.Sesion.Perfil.Descripcion);
+      }
     }
   }
 }

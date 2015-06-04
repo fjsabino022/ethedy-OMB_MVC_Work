@@ -65,6 +65,7 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Common\ViewModelBase.cs" />
     <Compile Include="ViewModel\LoginViewModel.cs" />
     <Compile Include="ViewModel\MainViewModel.cs" />
     <Compile Include="ViewModel\TestViewModel.cs" />
@@ -77,9 +78,6 @@
     <Compile Include="View\ViewServices.cs" />
     <Compile Include="View\winLogin.xaml.cs">
       <DependentUpon>winLogin.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="View\winMain.xaml.cs">
-      <DependentUpon>winMain.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\winTest.xaml.cs">
       <DependentUpon>winTest.xaml</DependentUpon>
@@ -128,10 +126,6 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\winMain.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="View\winTest.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -156,6 +150,10 @@
     <Resource Include="Imagenes\Horror.png" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Data\Data.csproj">
+      <Project>{92cb979f-4761-4f7e-9ffc-345006baca73}</Project>
+      <Name>Data</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Entidades\Entidades.csproj">
       <Project>{c9c15f5e-b8ee-47b1-9bf7-b056bf220027}</Project>
       <Name>Entidades</Name>

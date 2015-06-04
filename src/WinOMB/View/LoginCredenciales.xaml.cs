@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+
 using WindowsOMB.ViewModel;
 
 namespace WindowsOMB.View
@@ -35,6 +36,11 @@ namespace WindowsOMB.View
 
       //  btnIngresar.CommandBindings.Add(new CommandBinding(_viewModel.ComandoIngresar));
       txtUsuario.Focus();
+    }
+
+    private void PasswordFocus(object sender, RoutedEventArgs e)
+    {
+      //  _viewModel.Sorprender();
     }
   }
 }

@@ -39,7 +39,14 @@ namespace WindowsOMB.View
 
     private void LoginOK(object sender, EventArgs args)
     {
+      _viewModel.LoginOK -= LoginOK;
+      _viewModel.LoginOK += PerfilOK;
       loginContainer.Content = new LoginPerfiles(_viewModel);
+    }
+
+    private void PerfilOK(object sender, EventArgs args)
+    {
+      this.Close();
     }
   }
 }

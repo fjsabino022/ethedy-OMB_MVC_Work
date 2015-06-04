@@ -54,9 +54,10 @@ namespace Servicios
       return null;
     }
 
+    //  TODO chequear que el perfil corresponde al usuario??
     public Sesion CrearSesion(Usuario usr, Perfil perfil)
     {
-      Sesion result = new Sesion(usr);
+      Sesion result = new Sesion(usr, perfil);
 
       return result;
     }
