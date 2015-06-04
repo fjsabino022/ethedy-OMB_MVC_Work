@@ -5,7 +5,6 @@ using System.Text;
 using System.Threading.Tasks;
 
 using Entidades;
-using Entidades.Seguridad;
 
 namespace Servicios
 {
@@ -15,6 +14,8 @@ namespace Servicios
   public class Sesion
   {
     public Usuario UsuarioConectado { get; private set; }
+
+    public Perfil Perfil { get; private set; }
 
     public string FullName
     {
@@ -34,6 +35,14 @@ namespace Servicios
     public Sesion(Usuario usr)
     {
       UsuarioConectado = usr;
+      //  TODO null object!!
+      Perfil = null;
+    }
+
+    public Sesion(Usuario usr, Perfil perfil)
+    {
+      UsuarioConectado = usr;
+      Perfil = perfil;
     }
   }
 }

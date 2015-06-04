@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml;
 using Database;
-using Entidades.Seguridad;
+using Entidades;
 
 namespace Servicios
 {
@@ -19,7 +19,23 @@ namespace Servicios
 
     }
 
-    public Sesion Login(string uid, string pwd)
+    public Usuario Login(Usuario usr, string pwd)
+    {
+      Usuario user;
+
+      //  usamos exp-l para comprobar que el usuario exista (y obtenerlo)
+      //
+      user = DB.Usuarios.Find(u => u.Login == usr.Login);
+
+      if (user != null)
+      {
+        if (DB.LoginUsuario(user, pwd)) //  ojo con lo que le paso!!!
+          return user;
+      }
+      return null;
+    }
+
+    public Usuario Login(string uid, string pwd)
     {
       Usuario user;
 
@@ -31,12 +47,18 @@ namespace Servicios
       {
         if (DB.LoginUsuario(user, pwd))
         {
-          Sesion result = new Sesion(user);
-
-          return result;
+          //  Sesion result = new Sesion(user);
+          return user;
         }
       }
       return null;
+    }
+
+    public Sesion CrearSesion(Usuario usr, Perfil perfil)
+    {
+      Sesion result = new Sesion(usr);
+
+      return result;
     }
   }
 }

@@ -28,12 +28,18 @@ namespace WindowsOMB.View
 
       _viewModel = new LoginViewModel();
       _viewModel.LoginCancel += LoginCancel;
+      _viewModel.LoginOK += LoginOK;
       loginContainer.Content = new LoginCredenciales(_viewModel);
     }
 
     private void LoginCancel(object sender, EventArgs args)
     {
       this.Close();
+    }
+
+    private void LoginOK(object sender, EventArgs args)
+    {
+      loginContainer.Content = new LoginPerfiles(_viewModel);
     }
   }
 }

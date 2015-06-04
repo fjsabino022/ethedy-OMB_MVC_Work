@@ -1,7 +1,8 @@
 ﻿
 using System;
+using System.Collections.Generic;
 
-namespace Entidades.Seguridad
+namespace Entidades
 {
   /// <summary>
   /// Representa a una Persona que puede conectarse al sistema y puede interactuar con el mismo
@@ -48,6 +49,8 @@ namespace Entidades.Seguridad
     /// Referencia a la persona que esta representando el usuario
     /// </summary>
     public Persona Persona { get; set; }
+
+    public List<Perfil> Perfiles { get; set; }
 
     //  TODO agregar propiedad de ultimo login NO EXITOSO
     //  TODO agregar propiedad imagen del usuario (no lo ponemos en Persona, solamente usuarios del sistema que tienen oportunidad de mostrarla)

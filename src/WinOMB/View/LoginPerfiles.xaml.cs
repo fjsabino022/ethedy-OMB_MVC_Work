@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using WindowsOMB.ViewModel;
 
 namespace WindowsOMB.View
 {
@@ -20,9 +21,19 @@ namespace WindowsOMB.View
   /// </summary>
   public partial class LoginPerfiles : UserControl
   {
-    public LoginPerfiles()
+    private LoginViewModel _vm;
+
+    public LoginPerfiles(LoginViewModel viewModel)
     {
       InitializeComponent();
+      _vm = viewModel;
     }
+
+    private void ControlLoaded(object sender, RoutedEventArgs e)
+    {
+      this.DataContext = _vm;
+    }
+
+
   }
 }

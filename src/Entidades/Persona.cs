@@ -1,7 +1,7 @@
 ﻿
 using System;
 
-namespace Entidades.Seguridad
+namespace Entidades
 {
   /// <summary>
   /// Una Persona puede ser un cliente, un empleado, un proveedor o cualquier participante del sistema

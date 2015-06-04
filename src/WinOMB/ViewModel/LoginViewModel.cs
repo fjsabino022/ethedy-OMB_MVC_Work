@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
@@ -10,18 +11,24 @@ using System.Windows.Navigation;
 
 using Servicios;
 using Entidades;
-using Entidades.Seguridad;
 
 namespace WindowsOMB.ViewModel
 {
   public class LoginViewModel: INotifyPropertyChanged
   {
     private CommandIngresar _cmdIngresar;
+    private CommandIngresar _cmdIngresarPerfil;
     private CommandCancelar _cmdCancelar;
+    private Usuario _usuario;
+    private string _password;
+    private Perfil _perfil;
+    private ObservableCollection<Perfil> _perfiles;
 
     public event PropertyChangedEventHandler PropertyChanged;
 
     public event EventHandler LoginCancel;
+
+    public event EventHandler LoginOK;
 
     public LoginViewModel()
     {
@@ -30,12 +37,28 @@ namespace WindowsOMB.ViewModel
 
       ComandoIngresar = new CommandIngresar(() =>
       {
-        Debug.WriteLine(string.Format("Llamar a Login Usuario {0}", UsuarioModel.Login));
+        Debug.WriteLine(string.Format("Llamar a Login Usuario {0} , Pass: {1}", UsuarioModel.Login, Password));
+
+        SecurityServices srv = new SecurityServices();
+
+        if ((UsuarioModel = srv.Login(UsuarioModel, Password)) != null)
+        {
+          Perfiles = new ObservableCollection<Perfil>(UsuarioModel.Perfiles);
+          OnLoginOK();
+        }
+        else
+          OnLoginCancel();
       });
+
+      ComandoIngresarPerfil = new CommandIngresar(() =>
+      {
+        Debug.WriteLine(_perfil.Descripcion);
+        OnLoginOK();
+      });
+
       ComandoCancelar = new CommandCancelar(() =>
       {
-        if (LoginCancel != null)
-          LoginCancel(this, null);
+        OnLoginCancel();
       });
     }
 
@@ -59,7 +82,16 @@ namespace WindowsOMB.ViewModel
       }
     }
 
-    private Usuario _usuario;
+    public CommandIngresar ComandoIngresarPerfil
+    {
+      get { return _cmdIngresarPerfil; }
+      set
+      {
+        _cmdIngresarPerfil = value;
+        OnPropertyChanged("ComandoIngresarPerfil");
+      }
+    }
+
     public Usuario UsuarioModel
     {
       get { return _usuario;  }
@@ -70,10 +102,55 @@ namespace WindowsOMB.ViewModel
       }
     }
 
+    public string Password
+    {
+      private get
+      {
+        return _password;
+      }
+      set
+      {
+        _password = value;
+        OnPropertyChanged("Password");
+      }
+    }
+
+    public Perfil PerfilSeleccionado
+    {
+      get { return _perfil; }
+      set
+      {
+        _perfil = value;
+        OnPropertyChanged("PerfilSeleccionado");
+      }
+    }
+
+    public ObservableCollection<Perfil> Perfiles
+    {
+      get { return _perfiles; }
+      set
+      {
+        _perfiles = value;
+        OnPropertyChanged("Perfiles");
+      }
+    }
+
     private void OnPropertyChanged(string prop)
     {
       if (PropertyChanged != null)
         PropertyChanged(this, new PropertyChangedEventArgs(prop));
+    }
+
+    private void OnLoginOK()
+    {
+      if (LoginOK != null)
+        LoginOK(this, new EventArgs());
+    }
+
+    private void OnLoginCancel()
+    {
+      if (LoginCancel != null)
+        LoginCancel(this, new EventArgs());
     }
   }
 

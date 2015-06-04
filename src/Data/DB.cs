@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using Entidades.Seguridad;
+using Entidades;
 
 namespace Database
 {
@@ -31,19 +31,30 @@ namespace Database
       }
     };
 
+    private static List<Perfil> _perfiles = new List<Perfil>()
+    {
+      new Perfil() {Nombre = "SysAdmin", Descripcion = "Administracion total del Sistema"},
+      new Perfil() {Nombre = "StockAdmin", Descripcion = "Maneja el ingreso/egreso de productos al deposito"},
+      new Perfil() {Nombre = "PDV", Descripcion = "Atencion al cliente, facturacion, caja"},
+      new Perfil() {Nombre = "AsistenciaCliente", Descripcion = "Acceso a terminales de ayuda al cliente, busqueda de productos y precios"}
+    };
+
     private static List<Usuario> _usuarios = new List<Usuario>()
     {
       new Usuario()
       {
-        Login = "hsimpson", FechaExpiracionPassword = DateTime.Now.AddDays(30), Persona = _personas[0]
+        Login = "hsimpson", FechaExpiracionPassword = DateTime.Now.AddDays(30), Persona = _personas[0], 
+        Perfiles = new List<Perfil>() { _perfiles[3] } 
       },
       new Usuario()
       {
-        Login = "mburns", FechaExpiracionPassword = DateTime.Now.AddDays(60), Persona = _personas[2]
+        Login = "mburns", FechaExpiracionPassword = DateTime.Now.AddDays(60), Persona = _personas[2],
+        Perfiles = new List<Perfil>() { _perfiles[0] }
       },
       new Usuario()
       {
-        Login = "mbouvier", FechaExpiracionPassword = DateTime.Now.AddDays(45), Persona = _personas[3]
+        Login = "mbouvier", FechaExpiracionPassword = DateTime.Now.AddDays(45), Persona = _personas[3],
+        Perfiles = new List<Perfil>() { _perfiles[2], _perfiles[3] }
       }
     };
 
