@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 
 using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 
 namespace Entidades
 {
@@ -22,8 +23,12 @@ namespace Entidades
       get { return _login; }
       set
       {
+        if (string.IsNullOrEmpty(value) || value.Length < 5) 
+          throw new ArgumentException("Usuario vacio o muy corto");
+
         _login = value;
-        if (PropertyChanged != null) PropertyChanged(this, new PropertyChangedEventArgs("Login"));
+        if (PropertyChanged != null)
+          PropertyChanged(this, new PropertyChangedEventArgs("Login"));
       }
     }
 

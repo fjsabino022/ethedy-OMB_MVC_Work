@@ -80,9 +80,6 @@
     <Compile Include="View\winLogin.xaml.cs">
       <DependentUpon>winLogin.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\winMain.xaml.cs">
-      <DependentUpon>winMain.xaml</DependentUpon>
-    </Compile>
     <Compile Include="View\winTest.xaml.cs">
       <DependentUpon>winTest.xaml</DependentUpon>
     </Compile>
@@ -127,10 +124,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\winLogin.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="View\winMain.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

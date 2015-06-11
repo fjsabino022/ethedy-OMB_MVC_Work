@@ -4,7 +4,7 @@
         Title="Ingreso al Sistema" Height="200" Width="460" ResizeMode="NoResize" 
         WindowStartupLocation="CenterScreen">
   <DockPanel>
-    <Image DockPanel.Dock="Left" Width="150" Source="../Imagenes/Horror.png" Stretch="Fill"></Image>
+    <Image DockPanel.Dock="Left" Width="150" Source="/Imagenes/Horror.png" Stretch="Fill"></Image>
     <ContentControl Name="loginContainer">
       
     </ContentControl>

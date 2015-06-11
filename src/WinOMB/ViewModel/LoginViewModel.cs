@@ -15,20 +15,21 @@ using Infraestructura;
 using Servicios;
 using Entidades;
 using Database;
+using WindowsOMB.Common;
 
 namespace WindowsOMB.ViewModel
 {
-  public class LoginViewModel: INotifyPropertyChanged
+  public class LoginViewModel: ViewModelBase, INotifyPropertyChanged, IDataErrorInfo
   {
-    private CommandIngresar _cmdIngresar;
-    private CommandIngresar _cmdIngresarPerfil;
-    private CommandCancelar _cmdCancelar;
+    private ComandoSimple _cmdIngresar;
+    private ComandoSimple _cmdIngresarPerfil;
+    private ComandoSimple  _cmdCancelar;
     private Usuario _usuario;
     private string _password;
     private Perfil _perfil;
     private ObservableCollection<Perfil> _perfiles;
 
-    public event PropertyChangedEventHandler PropertyChanged;
+    private string _login;
 
     public event EventHandler LoginCancel;
 
@@ -39,7 +40,7 @@ namespace WindowsOMB.ViewModel
       UsuarioModel = new Usuario();
       //  UsuarioModel.Login = "mburns";
 
-      ComandoIngresar = new CommandIngresar(() =>
+      ComandoIngresar = new ComandoSimple(() =>
       {
         Debug.WriteLine(string.Format("Llamar a Login Usuario {0} , Pass: {1}", UsuarioModel.Login, Password));
 
@@ -56,7 +57,7 @@ namespace WindowsOMB.ViewModel
           OnLoginCancel();
       });
 
-      ComandoIngresarPerfil = new CommandIngresar(() =>
+      ComandoIngresarPerfil = new ComandoSimple(() =>
       {
         SecurityServices srv = new SecurityServices();
 
@@ -67,7 +68,7 @@ namespace WindowsOMB.ViewModel
         OnLoginOK();
       });
 
-      ComandoCancelar = new CommandCancelar(() =>
+      ComandoCancelar = new ComandoSimple(() =>
       {
         OnLoginCancel();
       });
@@ -75,33 +76,46 @@ namespace WindowsOMB.ViewModel
       PerfilSeleccionado = null;
     }
 
-    public CommandIngresar ComandoIngresar
+    public string Login
+    {
+      get { return _login; }
+      set
+      {
+        if (string.IsNullOrEmpty(value) || value.Length < 5)
+          throw new ArgumentException("Valor de login inadecuado");
+
+        _login = value;
+        OnPropertyChanged();
+      }
+    }
+
+    public ComandoSimple ComandoIngresar
     {
       get { return _cmdIngresar; }
       set
       {
         _cmdIngresar = value;
-        OnPropertyChanged("ComandoIngresar");
+        OnPropertyChanged();
       }
     }
 
-    public CommandCancelar ComandoCancelar
+    public ComandoSimple ComandoCancelar
     {
       get { return _cmdCancelar; }
       set
       {
         _cmdCancelar = value;
-        OnPropertyChanged("ComandoCancelar");
+        OnPropertyChanged();
       }
     }
 
-    public CommandIngresar ComandoIngresarPerfil
+    public ComandoSimple ComandoIngresarPerfil
     {
       get { return _cmdIngresarPerfil; }
       set
       {
         _cmdIngresarPerfil = value;
-        OnPropertyChanged("ComandoIngresarPerfil");
+        OnPropertyChanged();
       }
     }
 
@@ -111,7 +125,7 @@ namespace WindowsOMB.ViewModel
       set
       {
         _usuario = value;
-        OnPropertyChanged("UsuarioModel");
+        OnPropertyChanged();
       }
     }
 
@@ -124,7 +138,7 @@ namespace WindowsOMB.ViewModel
       set
       {
         _password = value;
-        OnPropertyChanged("Password");
+        OnPropertyChanged();
       }
     }
 
@@ -134,7 +148,7 @@ namespace WindowsOMB.ViewModel
       set
       {
         _perfil = value;
-        OnPropertyChanged("PerfilSeleccionado");
+        OnPropertyChanged();
       }
     }
 
@@ -144,7 +158,7 @@ namespace WindowsOMB.ViewModel
       set
       {
         _perfiles = value;
-        OnPropertyChanged("Perfiles");
+        OnPropertyChanged();
       }
     }
 
@@ -160,12 +174,6 @@ namespace WindowsOMB.ViewModel
     }
 
     #region LANZADORES DE EVENTOS
-
-    private void OnPropertyChanged(string prop)
-    {
-      if (PropertyChanged != null)
-        PropertyChanged(this, new PropertyChangedEventArgs(prop));
-    }
 
     private void OnLoginOK()
     {
@@ -185,49 +193,27 @@ namespace WindowsOMB.ViewModel
     }
 
     #endregion
-  }
 
-  public class CommandIngresar : ICommand
-  {
-    private Action _comando;
-
-    public CommandIngresar(Action comandoAction)
+    public string Error
     {
-      _comando = comandoAction;
+      get { return string.Empty; }
     }
 
-    public bool CanExecute(object parameter)
+    public string this[string propName]
     {
-      return true;
+      get 
+      { 
+        switch (propName)
+        {
+          case "Password":
+            if (string.IsNullOrWhiteSpace(_password) || _password.Length < 10)
+              return "La password debe ser de al menos 10 caracteres";
+            else
+              return string.Empty;
+            break;
+        }
+        return string.Empty;
+      }
     }
-
-    public void Execute(object parameter)
-    {
-      _comando();
-    }
-
-    public event EventHandler CanExecuteChanged;
-  }
-
-  public class CommandCancelar : ICommand
-  {
-    private Action _comando;
-
-    public CommandCancelar(Action comandoAction)
-    {
-      _comando = comandoAction;
-    }
-
-    public bool CanExecute(object parameter)
-    {
-      return true;
-    }
-
-    public void Execute(object parameter)
-    {
-      _comando();
-    }
-
-    public event EventHandler CanExecuteChanged;
   }
 }
