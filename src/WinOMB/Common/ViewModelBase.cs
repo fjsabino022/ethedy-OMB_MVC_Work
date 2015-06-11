@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 using System.ComponentModel;
+using System.Runtime.CompilerServices;
 
 namespace WindowsOMB.Common
 {
@@ -13,9 +14,9 @@ namespace WindowsOMB.Common
 
     public event PropertyChangedEventHandler PropertyChanged;
 
-    protected void OnPropertyChanged(string propName)
+    protected void OnPropertyChanged([CallerMemberName] string propName = null)
     {
-      if (PropertyChanged != null)
+      if (PropertyChanged != null && propName != null)
         PropertyChanged(this, new PropertyChangedEventArgs(propName));
     }
   }

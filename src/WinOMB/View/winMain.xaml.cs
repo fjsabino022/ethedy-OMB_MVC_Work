@@ -30,6 +30,7 @@ namespace WindowsOMB.View
       InitializeComponent();
 
       _viewModel = new MainViewModel();
+      this.DataContext = _viewModel;
       Context.Current.ServiceProvider.AddService(typeof(LoginService), new LoginService());
     }
 

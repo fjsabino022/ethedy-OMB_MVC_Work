@@ -45,9 +45,6 @@ namespace WindowsOMB.ViewModel
       var login = Context.Current.ServiceProvider.GetService(typeof(LoginService)) as LoginService;
 
       login.Show();
-
-      LoginCommand.OnCanExecuteChanged();
-      LogoutCommand.OnCanExecuteChanged();
     }
 
     public ComandoSimple LoginCommand
@@ -68,42 +65,6 @@ namespace WindowsOMB.ViewModel
         _cmdLogout = value;
         OnPropertyChanged("LogoutCommand");
       }
-    }
-  }
-
-  public class ComandoSimple : ICommand
-  {
-    private Action<object> _execute;
-    private Func<object, bool> _canExecute;
-
-    public ComandoSimple(Action<object> exec, Func<object, bool> canExec)
-    {
-      _execute = exec;
-      _canExecute = canExec;
-    }
-
-    public ComandoSimple(Action<object> exec)
-    {
-      _execute = exec;
-      _canExecute = (o) => true;
-    }
-
-    public bool CanExecute(object parameter)
-    {
-      return _canExecute(parameter);
-    }
-
-    public event EventHandler CanExecuteChanged;
-
-    public void OnCanExecuteChanged()
-    {
-      if (CanExecuteChanged != null)
-        CanExecuteChanged(this, new EventArgs());
-    }
-
-    public void Execute(object parameter)
-    {
-      _execute(parameter);
     }
   }
 }

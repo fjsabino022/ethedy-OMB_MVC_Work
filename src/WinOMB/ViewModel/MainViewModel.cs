@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using WindowsOMB.Common;
 using WindowsOMB.View;
 using Infraestructura;
 
@@ -14,11 +15,23 @@ namespace WindowsOMB.ViewModel
   /// Binding de botones de la ribbon
   /// Binding de status bar
   /// </summary>
-  public class MainViewModel : INotifyPropertyChanged
+  public class MainViewModel : ViewModelBase
   {
-    public event PropertyChangedEventHandler PropertyChanged;
+    public ComandoSimple LoginCommand { get; set; }
+    public ComandoSimple LogoutCommand { get; set; }
 
-    public void TryLogin()
+    public MainViewModel()
+    {
+      LoginCommand = new ComandoSimple(TryLogin, () => Context.Current.Sesion == null);
+      LogoutCommand = new ComandoSimple(Logout, () => Context.Current.Sesion != null);
+    }
+
+    private void Logout()
+    {
+      //
+    }
+
+    internal void TryLogin()
     {
       LoginService login = Context.Current.ServiceProvider.GetService(typeof(LoginService)) as LoginService;
 
