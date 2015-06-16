@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using WindowsOMB.Common;
 using WindowsOMB.View;
 using Infraestructura;
+using Servicios;
 
 namespace WindowsOMB.ViewModel
 {
@@ -17,23 +18,54 @@ namespace WindowsOMB.ViewModel
   /// </summary>
   public class MainViewModel : ViewModelBase
   {
+    private bool _isUserConnected;
+    private string _userConnectedName;
+
     public ComandoSimple LoginCommand { get; set; }
     public ComandoSimple LogoutCommand { get; set; }
 
     public MainViewModel()
     {
+      UserConnectedName = "<Desconectado>";
+      UserConnected = false;
+
       LoginCommand = new ComandoSimple(TryLogin, () => Context.Current.Sesion == null);
       LogoutCommand = new ComandoSimple(Logout, () => Context.Current.Sesion != null);
     }
 
+    public bool UserConnected
+    {
+      get { return _isUserConnected; }
+      set
+      {
+        _isUserConnected = value;
+        OnPropertyChanged();
+      }
+    }
+
+    public string UserConnectedName
+    {
+      get { return _userConnectedName; }
+      set
+      {
+        _userConnectedName = value;
+        OnPropertyChanged();
+      }
+    }
+
     private void Logout()
     {
-      //
+      SecurityServices serv = new SecurityServices();
+
+      serv.CerrarSesion();
+
+      UserConnectedName = "<Desconectado>";
+      UserConnected = false;
     }
 
     internal void TryLogin()
     {
-      LoginService login = Context.Current.ServiceProvider.GetService(typeof(LoginService)) as LoginService;
+      IDialogService login = Context.Current.ServiceProvider.GetService(typeof(IDialogService)) as IDialogService;
 
       if (login != null)
       {
@@ -41,9 +73,8 @@ namespace WindowsOMB.ViewModel
 
         if (Context.Current.Sesion != null)
         {
-          //  actualizar comandos
-          //  mostrar usuario conectado
-          //  permitir activar nuevas opciones de ribbon
+          UserConnected = true;
+          UserConnectedName = Context.Current.Sesion.FullName;
         }
       }
     }

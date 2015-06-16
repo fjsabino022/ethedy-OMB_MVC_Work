@@ -11,6 +11,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using WindowsOMB.Common;
 using WindowsOMB.ViewModel;
 
 namespace WindowsOMB.View
@@ -20,33 +21,36 @@ namespace WindowsOMB.View
   /// </summary>
   public partial class winLogin : Window
   {
-    private LoginViewModel _viewModel;
+    private readonly LoginViewModel _viewModel;
+    private bool _perfilesActivo;
 
     public winLogin()
     {
       InitializeComponent();
 
-      _viewModel = new LoginViewModel();
-      _viewModel.LoginCancel += LoginCancel;
-      _viewModel.LoginOK += LoginOK;
+      _perfilesActivo = false;
+      _viewModel = new LoginViewModel(ProcessRequest);
       loginContainer.Content = new LoginCredenciales(_viewModel);
     }
 
-    private void LoginCancel(object sender, EventArgs args)
+    private void ProcessRequest(ActionRequest request)
     {
-      this.Close();
-    }
+      switch (request)
+      {
+        case ActionRequest.CloseOK:
+          if (_perfilesActivo)
+            Close();
+          else
+          {
+            _perfilesActivo = true;
+            loginContainer.Content = new LoginPerfiles(_viewModel);
+          }
+          break;
 
-    private void LoginOK(object sender, EventArgs args)
-    {
-      _viewModel.LoginOK -= LoginOK;
-      _viewModel.LoginOK += PerfilOK;
-      loginContainer.Content = new LoginPerfiles(_viewModel);
-    }
-
-    private void PerfilOK(object sender, EventArgs args)
-    {
-      this.Close();
+        case ActionRequest.CloseCancel:
+          Close();
+          break;
+      }
     }
   }
 }

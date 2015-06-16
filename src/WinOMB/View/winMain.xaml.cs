@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.Design;
+using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -12,6 +14,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using WindowsOMB.Common;
 using WindowsOMB.ViewModel;
 using Infraestructura;
 using Syncfusion.Windows.Tools.Controls;
@@ -31,7 +34,9 @@ namespace WindowsOMB.View
 
       _viewModel = new MainViewModel();
       this.DataContext = _viewModel;
-      Context.Current.ServiceProvider.AddService(typeof(LoginService), new LoginService());
+
+      Context.Current.ServiceProvider.AddService(typeof(IDialogService), new LoginService());
+      Context.Current.ServiceProvider.AddService(typeof(INotificationService), new ExceptionNotificacionService());
     }
 
     private void WindowLoaded(object sender, RoutedEventArgs e)
@@ -39,7 +44,5 @@ namespace WindowsOMB.View
       //  ribMain.BackStageButton.Visibility = Visibility.Collapsed;
       _viewModel.TryLogin();
     }
-
-    
   }
 }

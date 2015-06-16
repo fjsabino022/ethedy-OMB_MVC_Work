@@ -4,8 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml;
-using Database;
+
+using Data;
 using Entidades;
+using Infraestructura;
 
 namespace Servicios
 {
@@ -59,7 +61,15 @@ namespace Servicios
     {
       Sesion result = new Sesion(usr, perfil);
 
+      Context.Current.Sesion = result;
       return result;
+    }
+
+    public void CerrarSesion()
+    {
+      //  llamar a DB
+      Context.Current.Sesion.Logout();
+      Context.Current.Sesion = null;
     }
   }
 }

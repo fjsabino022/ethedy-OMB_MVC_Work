@@ -2,35 +2,18 @@
 using System;
 using System.Collections.Generic;
 
-using System.ComponentModel;
-using System.ComponentModel.DataAnnotations;
-
 namespace Entidades
 {
   /// <summary>
   /// Representa a una Persona que puede conectarse al sistema y puede interactuar con el mismo
   /// </summary>
-  public class Usuario : INotifyPropertyChanged
+  public class Usuario
   {
-    private string _login;
-
     /// <summary>
     /// Representa el ID unico de usuario dentro del sistema
     /// El ingreso al mismo debe realizarse con este identificador
     /// </summary>
-    public string Login
-    {
-      get { return _login; }
-      set
-      {
-        if (string.IsNullOrEmpty(value) || value.Length < 5) 
-          throw new ArgumentException("Usuario vacio o muy corto");
-
-        _login = value;
-        if (PropertyChanged != null)
-          PropertyChanged(this, new PropertyChangedEventArgs("Login"));
-      }
-    }
+    public string Login { get; set; }
 
     /// <summary>
     /// Si corresponde, la fecha en que expira la password del usuario
@@ -72,8 +55,5 @@ namespace Entidades
     //  TODO agregar propiedad de ultimo login NO EXITOSO
     //  TODO agregar propiedad imagen del usuario (no lo ponemos en Persona, solamente usuarios del sistema que tienen oportunidad de mostrarla)
     //  
-
-    public event PropertyChangedEventHandler PropertyChanged;
-
   }
 }

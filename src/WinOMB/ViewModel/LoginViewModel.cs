@@ -14,121 +14,78 @@ using System.Threading;
 using Infraestructura;
 using Servicios;
 using Entidades;
-using Database;
 using WindowsOMB.Common;
 
 namespace WindowsOMB.ViewModel
 {
-  public class LoginViewModel: ViewModelBase, INotifyPropertyChanged, IDataErrorInfo
+  public class LoginViewModel: ViewModelBase, IDataErrorInfo
   {
-    private ComandoSimple _cmdIngresar;
-    private ComandoSimple _cmdIngresarPerfil;
-    private ComandoSimple  _cmdCancelar;
-    private Usuario _usuario;
     private string _password;
+    private string _login;
     private Perfil _perfil;
     private ObservableCollection<Perfil> _perfiles;
 
-    private string _login;
+    private Action<ActionRequest> _notify;
 
-    public event EventHandler LoginCancel;
-
-    public event EventHandler LoginOK;
-
-    public LoginViewModel()
+    public LoginViewModel(Action<ActionRequest> notify)
     {
-      UsuarioModel = new Usuario();
-      //  UsuarioModel.Login = "mburns";
+      _notify = notify ?? delegate(ActionRequest r) { };
 
       ComandoIngresar = new ComandoSimple(() =>
       {
-        Debug.WriteLine(string.Format("Llamar a Login Usuario {0} , Pass: {1}", UsuarioModel.Login, Password));
+        Debug.WriteLine("Llamar a Login Usuario {0} , Pass: {1}", Login, Password);
 
         SecurityServices srv = new SecurityServices();
 
-        if ((UsuarioModel = srv.Login(UsuarioModel, Password)) != null)
+        if ((Usuario = srv.Login(Login, Password)) != null)
         {
-          Perfiles = new ObservableCollection<Perfil>(UsuarioModel.Perfiles);
+          Perfiles = new ObservableCollection<Perfil>(Usuario.Perfiles);
           PerfilSeleccionado = Perfiles[0];
 
-          OnLoginOK();
+          _notify(ActionRequest.CloseOK);
         }
         else
-          OnLoginCancel();
-      });
+          OnLoginError("");
+      }, IsValid);
 
       ComandoIngresarPerfil = new ComandoSimple(() =>
       {
         SecurityServices srv = new SecurityServices();
 
-        Context.Current.Sesion = srv.CrearSesion(UsuarioModel, PerfilSeleccionado);
+        srv.CrearSesion(Usuario, PerfilSeleccionado);
 
-        Debug.WriteLine(_perfil.Descripcion);
+        Debug.WriteLine("Perfil Seleccionado: {0}", (object)_perfil.Descripcion);
 
-        OnLoginOK();
+        _notify(ActionRequest.CloseOK);
       });
 
-      ComandoCancelar = new ComandoSimple(() =>
-      {
-        OnLoginCancel();
-      });
+      ComandoCancelar = new ComandoSimple(() => _notify(ActionRequest.CloseCancel));
 
       PerfilSeleccionado = null;
     }
 
+    #region PROPIEDADES BINDEABLES
+
+    /// <summary>
+    /// Representa el ID de ingreso del usuario al sistema
+    /// Validacion por excepcion...
+    /// </summary>
     public string Login
     {
       get { return _login; }
       set
       {
         if (string.IsNullOrEmpty(value) || value.Length < 5)
-          throw new ArgumentException("Valor de login inadecuado");
+          throw new ArgumentException("El Login debe ser un valor no vacio y de al menos 5 caracteres");
 
         _login = value;
         OnPropertyChanged();
       }
     }
 
-    public ComandoSimple ComandoIngresar
-    {
-      get { return _cmdIngresar; }
-      set
-      {
-        _cmdIngresar = value;
-        OnPropertyChanged();
-      }
-    }
-
-    public ComandoSimple ComandoCancelar
-    {
-      get { return _cmdCancelar; }
-      set
-      {
-        _cmdCancelar = value;
-        OnPropertyChanged();
-      }
-    }
-
-    public ComandoSimple ComandoIngresarPerfil
-    {
-      get { return _cmdIngresarPerfil; }
-      set
-      {
-        _cmdIngresarPerfil = value;
-        OnPropertyChanged();
-      }
-    }
-
-    public Usuario UsuarioModel
-    {
-      get { return _usuario;  }
-      set
-      {
-        _usuario = value;
-        OnPropertyChanged();
-      }
-    }
-
+    /// <summary>
+    /// Contraseña que se tiene que usar para ingresar al sistema
+    /// </summary>
     public string Password
     {
       private get
@@ -162,37 +119,55 @@ namespace WindowsOMB.ViewModel
       }
     }
 
+    #endregion
+
+    #region COMANDOS
+
+    public ComandoSimple ComandoIngresar { get; set; }
+
+    public ComandoSimple ComandoCancelar { get; set; }
+
+    public ComandoSimple ComandoIngresarPerfil { get; set; }
+
+    #endregion
+
+    private Usuario Usuario { get; set; }
+
+    public bool IsValid()
+    {
+      //  aqui el problema de tener que recorrer la coleccion de todas las propiedades que puedan producir error
+      //  como en este caso es una sola, no es una complicacion
+      foreach (var item in  new[] {"Password"})
+        if (!string.IsNullOrEmpty(this[item]))
+          return false;
+      return true;
+    }
+
     public void Sorprender()
     {
       Task tsk = new Task(() =>
       {
         Thread.Sleep(3000);
         //  cambiamos el nombre del usuario 
-        _usuario.Login += _usuario.Login;
+        Login += Login;
       });
       tsk.Start();
     }
 
     #region LANZADORES DE EVENTOS
 
-    private void OnLoginOK()
-    {
-      if (LoginOK != null)
-        LoginOK(this, new EventArgs());
-    }
-
-    private void OnLoginCancel()
-    {
-      if (LoginCancel != null)
-        LoginCancel(this, new EventArgs());
-    }
-
     private void OnLoginError(string errMsg)
     {
-      //  TODO enviar evento de error 
+      INotificationService serv = Context.Current.ServiceProvider.GetService(typeof (INotificationService)) as INotificationService;
+
+      serv.Mensaje = "Error en Login";
+      serv.Titulo = "ERROR IMPORTANTE";
+      serv.Show();
     }
 
     #endregion
+
+    #region Implementacion IDataErrorInfo
 
     public string Error
     {
@@ -201,13 +176,13 @@ namespace WindowsOMB.ViewModel
 
     public string this[string propName]
     {
-      get 
-      { 
+      get
+      {
         switch (propName)
         {
           case "Password":
-            if (string.IsNullOrWhiteSpace(_password) || _password.Length < 10)
-              return "La password debe ser de al menos 10 caracteres";
+            if (string.IsNullOrWhiteSpace(_password) || _password.Length < 5)
+              return "La password no puede estar vacia y debe ser de al menos 5 caracteres";
             else
               return string.Empty;
             break;
@@ -215,5 +190,8 @@ namespace WindowsOMB.ViewModel
         return string.Empty;
       }
     }
+    
+    #endregion
+
   }
 }

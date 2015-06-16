@@ -14,8 +14,22 @@
           <ColumnDefinition Width="*"></ColumnDefinition>
           <ColumnDefinition Width="Auto"></ColumnDefinition>
         </Grid.ColumnDefinitions>
-        <Image Grid.Column="0" Source="/Imagenes/user_sleep.png" Width="24" VerticalAlignment="Center" Margin="5, 0"></Image>
-        <TextBlock Grid.Column="1" Text="[Desconectado]" VerticalAlignment="Center" Margin="5, 0"></TextBlock>
+        <Image Grid.Column="0" Width="24" VerticalAlignment="Center" Margin="5, 0">
+          <Image.Style>
+            <Style>
+              <Style.Triggers>
+                <DataTrigger Binding="{Binding UserConnected}" Value="False">
+                  <Setter Property="Image.Source" Value="/Imagenes/user_sleep.png"></Setter>
+                </DataTrigger>
+                <DataTrigger Binding="{Binding UserConnected}" Value="True">
+                  <Setter Property="Image.Source" Value="/Imagenes/session.png"></Setter>
+                </DataTrigger>
+              </Style.Triggers>
+            </Style>
+          </Image.Style>
+        </Image>
+
+        <TextBlock Grid.Column="1" Text="{Binding UserConnectedName}" VerticalAlignment="Center" Margin="5, 0"></TextBlock>
       </Grid>
     </syncfusion:RibbonStatusBar>
   </syncfusion:RibbonWindow.StatusBar>

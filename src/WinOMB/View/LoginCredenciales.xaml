@@ -23,6 +23,7 @@
       </Style.Triggers>
     </Style>
   </UserControl.Resources>
+  
   <Grid>
     <Grid.RowDefinitions>
       <RowDefinition Height="Auto"></RowDefinition>
@@ -37,7 +38,7 @@
     <Label Grid.Column="0" Grid.Row="0" VerticalAlignment="Center">Usuario</Label>
     <Label Grid.Column="0" Grid.Row="1" VerticalAlignment="Center">Password</Label>
     <TextBox Name="txtUsuario" Grid.Column="1" Grid.Row="0" Margin="10" 
-             Text="{Binding Path=UsuarioModel.Login, UpdateSourceTrigger=PropertyChanged, ValidatesOnExceptions=true}"></TextBox>
+             Text="{Binding Path=Login, UpdateSourceTrigger=PropertyChanged, ValidatesOnExceptions=true}"></TextBox>
     <TextBox Name="txtPassword" Grid.Column="1" Grid.Row="1" Margin="10" 
              Text="{Binding Path=Password, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=true}"
              Foreground="{Binding ElementName=txtPassword, Path=Background}" 

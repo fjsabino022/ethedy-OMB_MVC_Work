@@ -44,5 +44,11 @@ namespace Servicios
       UsuarioConectado = usr;
       Perfil = perfil;
     }
+
+    public void Logout()
+    {
+      UsuarioConectado = null;
+      Perfil = null;
+    }
   }
 }
