@@ -27,7 +27,7 @@ namespace Servicios
       }
     }
 
-    public DateTime FechaExpiracion
+    public DateTime? FechaExpiracion
     {
       get { return UsuarioConectado.FechaExpiracionPassword; }
     }
