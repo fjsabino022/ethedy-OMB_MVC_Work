@@ -35,6 +35,10 @@ create table Usuarios
   constraint FK_Usuarios_Personas foreign key (ID_Persona) references Personas(ID)
 )
 
+alter table Usuarios
+	add constraint Password_Default
+	default 'alskdjfhg' for Password
+
 create table Usuarios_Perfiles
 (
   Login         varchar(20)       not null,

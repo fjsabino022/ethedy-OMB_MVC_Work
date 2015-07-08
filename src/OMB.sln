@@ -15,6 +15,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WinOMB", "WinOMB\WinOMB.csp
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestEF", "TestEF\TestEF.csproj", "{FDB7E94E-D2A5-41A4-93B6-6B07226679C6}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EFTesting", "EFTesting\EFTesting.csproj", "{DA2D1459-E2AC-457B-B675-4C6C2FB5592C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -45,6 +47,10 @@ Global
 		{FDB7E94E-D2A5-41A4-93B6-6B07226679C6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FDB7E94E-D2A5-41A4-93B6-6B07226679C6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FDB7E94E-D2A5-41A4-93B6-6B07226679C6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DA2D1459-E2AC-457B-B675-4C6C2FB5592C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DA2D1459-E2AC-457B-B675-4C6C2FB5592C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DA2D1459-E2AC-457B-B675-4C6C2FB5592C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DA2D1459-E2AC-457B-B675-4C6C2FB5592C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

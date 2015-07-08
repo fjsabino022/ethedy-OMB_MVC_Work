@@ -4,10 +4,10 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
+using Data;
 using Entidades;
-using System.Data.Entity;
-using System.Data.Entity.ModelConfiguration;
+using Microsoft.SqlServer.Server;
+using Servicios;
 
 namespace TestEF
 {
@@ -15,62 +15,76 @@ namespace TestEF
   {
     static void Main(string[] args)
     {
-      OMBContext ctx = new OMBContext();
+      SecurityServices serv = new SecurityServices();
+      Usuario user;
 
-      var per = from p in ctx.Usuarios select p;
+      //  serv.EliminarUsuario("lsimpson");
 
-      Usuario pp = per.FirstOrDefault();
+      user = serv.GetUsuarioFromLogin("lsimpson");
 
-      Persona xx = pp.Persona;
-      Console.WriteLine(pp.Login);
-    }
-  }
+      //OMBContext Contexto = new OMBContext();
 
-  public class OMBContext : DbContext
-  {
-    public DbSet<Persona> Personas { get; set; }
-    public DbSet<Usuario> Usuarios { get; set; }
+      //Contexto.Configuration.LazyLoadingEnabled = true;
+      //Contexto.Configuration.AutoDetectChangesEnabled = true;
 
-    public OMBContext() : base("Server=CLUE;Database=OMB;Trusted_Connection=true") { }
+      //  Persona persona = CrearPersona("Bart", "Simpson", "elbarto@krustyclub.com", 10);
+      //  Usuario user = CrearUsuario("lsimpson", persona);
 
-    protected override void OnModelCreating(DbModelBuilder modelBuilder)
-    {
-      modelBuilder.Configurations.Add(new UsuarioConfiguration());
-      modelBuilder.Configurations.Add(new PersonaConfiguration());
-      modelBuilder.Configurations.Add(new PerfilConfiguration());
-    }
-  }
 
-  public class PersonaConfiguration : EntityTypeConfiguration<Persona>
-  {
-    public PersonaConfiguration()
-    {
-      Property(p => p.ID).HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
-    }
-  }
+      var perfiles = from p in DB.Contexto.Perfiles where p.ID==2 || p.ID==3 select p;
 
-  public class UsuarioConfiguration : EntityTypeConfiguration<Usuario>
-  {
-    public UsuarioConfiguration()
-    {
-      HasKey(usr => usr.Login);
+      Persona abuelo = (from per in DB.Contexto.Personas where per.Nombre == "Lisa" select per).Single();
 
-      HasRequired(usr => usr.Persona).WithOptional().Map(configuration => configuration.MapKey("ID_Persona"));
-      HasMany(usr => usr.Perfiles).WithMany().Map(x =>
+      //  user.Perfiles = new HashSet<Perfil>(perfiles);
+
+      //  Con esto funciona...
+      //  user.MustChangePass = true;
+      //  user.FechaLastLogin = DateTime.Now;
+
+      //  vamos a probar con los perfiles
+      //  primero quitamos un perfil de los que ya tiene
+      //  user.Perfiles.RemoveWhere(p => p.ID == 2);
+      //user.Perfiles.Clear();
+
+      //  ahora agregamos el otro perfil
+      //    user.Perfiles.Add(perfiles.Single());
+      //user.Perfiles.UnionWith(perfiles);
+
+      user.Persona = abuelo;
+
+      //user.FechaLastLogin = DateTime.Now;
+      //user.EnforceStrong = true;
+      try
       {
-        x.ToTable("Usuarios_Perfiles");
-        x.MapLeftKey("Login");
-        x.MapRightKey("ID_Perfil");
-      });
+        //Contexto.SaveChanges();
+        //  serv.CrearUsuario(user, "lisa-123");
+        serv.UpdateUsuario(user);
+      }
+      catch (Exception ex)
+      {
+        Console.WriteLine(ex.Message);
+      }
     }
-  }
 
-  public class PerfilConfiguration : EntityTypeConfiguration<Perfil>
-  {
-    public PerfilConfiguration()
+    public static Persona CrearPersona(string nombre, string apellido, string mail, int edad)
     {
-      ToTable("Perfiles");
-      Property(x => x.ID).HasColumnName("ID_Perfil");
+      return new Persona()
+      {
+        Apellido = apellido,
+        Nombre = nombre,
+        CorreoElectronico = mail,
+        FechaNacimiento = DateTime.Now.AddYears(-edad)
+      };
+    }
+
+    public static Usuario CrearUsuario(string login, Persona persona)
+    {
+      return new Usuario()
+      {
+        Login = login,
+        FechaExpiracionPassword = DateTime.Now.AddDays(30),
+        Persona = persona
+      };
     }
   }
 }

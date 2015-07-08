@@ -37,15 +37,20 @@ namespace WindowsOMB.ViewModel
 
         SecurityServices srv = new SecurityServices();
 
-        if ((Usuario = srv.Login(Login, Password)) != null)
+        try
         {
-          Perfiles = new ObservableCollection<Perfil>(Usuario.Perfiles);
-          PerfilSeleccionado = Perfiles[0];
+          if ((Usuario = srv.Login(Login, Password)) != null)
+          {
+            Perfiles = new ObservableCollection<Perfil>(Usuario.Perfiles);
+            PerfilSeleccionado = Perfiles[0];
 
-          _notify(ActionRequest.CloseOK);
+            _notify(ActionRequest.CloseOK);
+          }
         }
-        else
-          OnLoginError("");
+        catch (OMBSecurityException ex)
+        {
+          OnLoginError(ex.Message);
+        }
       }, IsValid);
 
       ComandoIngresarPerfil = new ComandoSimple(() =>
@@ -160,7 +165,7 @@ namespace WindowsOMB.ViewModel
     {
       INotificationService serv = Context.Current.ServiceProvider.GetService(typeof (INotificationService)) as INotificationService;
 
-      serv.Mensaje = "Error en Login";
+      serv.Mensaje = errMsg;
       serv.Titulo = "ERROR IMPORTANTE";
       serv.Show();
     }

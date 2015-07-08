@@ -50,7 +50,11 @@ namespace Entidades
     /// </summary>
     public virtual Persona Persona { get; set; }
 
-    public virtual List<Perfil> Perfiles { get; set; }
+    /// <summary>
+    /// Lista de Perfiles que posee un Usuario
+    /// Cuando decide EF que tipo de coleccion debe ser, elige HashSet que me parece que esta perfecto...
+    /// </summary>
+    public virtual HashSet<Perfil> Perfiles { get; set; }
 
     //  TODO agregar propiedad de ultimo login NO EXITOSO
     //  TODO agregar propiedad imagen del usuario (no lo ponemos en Persona, solamente usuarios del sistema que tienen oportunidad de mostrarla)
