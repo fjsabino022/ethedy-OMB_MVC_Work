@@ -120,7 +120,6 @@ namespace Servicios
 
     public void CerrarSesion()
     {
-      //  llamar a DB
       Context.Current.Sesion.Logout();
       Context.Current.Sesion = null;
     }

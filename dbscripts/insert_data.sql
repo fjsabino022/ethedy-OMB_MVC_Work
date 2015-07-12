@@ -1,4 +1,16 @@
-﻿
+﻿use OMB
+go;
+
+
+select * from Personas
+select * from Usuarios
+select * from Usuarios_Perfiles
+
+select * from Perfiles
+
+--  Tabla Personas
+--
+--
 
 insert into Personas (ID, Nombre, Apellido, CorreoElectronico, FechaNacimiento) 
   values (default, 'Homer', 'Simpson', 'hsimpson@pp.com', convert(date, '20/05/1968', 103))
@@ -12,31 +24,41 @@ insert into Personas (ID, Nombre, Apellido, CorreoElectronico, FechaNacimiento)
 insert into Personas (ID, Nombre, Apellido, CorreoElectronico, FechaNacimiento) 
   values (default, 'Marge', 'Bouvier', 'mbouvier@pp.com', convert(date, '01/03/1971', 103))
 
+insert into Personas (ID, Nombre, Apellido, CorreoElectronico, FechaNacimiento)
+  values (default, 'Ned', 'Flanders', 'neddy@leftorium.com', convert(date, '10/10/1941', 103))
+
+--  Tabla Perfiles
+--
+--
 
 insert into Perfiles values ('SysAdmin', 'Administracion total del Sistema')
 insert into Perfiles values ('StockAdmin', 'Maneja el ingreso/egreso de productos al deposito')
 insert into Perfiles values ('PDV', 'Atencion al cliente, facturacion, caja')
 insert into Perfiles values ('AsistenciaCliente', 'Acceso a terminales de ayuda al cliente, busqueda de productos y precios')
 
+--  Tabla Usuarios
+--
+--
 
 insert into Usuarios (Login, Password, ID_Persona)
-  values ('hsimpson', '123456', 'B9493449-D006-4270-B8EA-9CFE34DF7123')
+  values ('hsimpson', '123456', (select ID from Personas where Nombre='Homer' and Apellido='Simpson'))
 
 insert into Usuarios (Login, Password, ID_Persona)
-  values ('mburns', 'monty', '3008DEAE-F9F6-4BDB-88CB-904DE6A5348D')
+  values ('mburns', 'monty', (select ID from Personas where Nombre='Montgomery' and Apellido='Burns'))
 
 insert into Usuarios (Login, Password, ID_Persona)
-  values ('mbouvier', 'ringo', '3D1094EB-ED22-493A-87CD-7A78193F2B33')
+  values ('mbouvier', 'ringo', (select ID from Personas where Nombre='Marge' and Apellido='Bouvier'))
+
+insert into Usuarios (Login, Password, ID_Persona)
+  values ('nflanders', 'maude', (select ID from Personas where Nombre='Ned' and Apellido='Flanders'))
+
+--  Tabla-Join Usuarios_Perfiles
+--
+--
 
 insert into Usuarios_Perfiles values ('hsimpson', 4)
 insert into Usuarios_Perfiles values ('mburns', 1)
 insert into Usuarios_Perfiles values ('mbouvier', 3)
 insert into Usuarios_Perfiles values ('mbouvier', 4)
-
-
-select * from Personas
-select * from Perfiles
-select * from Usuarios
-select * from Usuarios_Perfiles
-
+insert into Usuarios_Perfiles values ('nflanders', 4)
 
