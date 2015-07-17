@@ -17,12 +17,16 @@ namespace TestEF
     {
       //  Comentar o descomentar segun las pruebas que se quieran hacer
 
-      //  PRUEBA 1: cambiar todos los perfiles que tiene un Usuario
+      //  PRUEBA 1: probando change tracker
       //
-      CrearUsuarioCompleto();
-      CambiarSoloPerfiles();
+            ProbarChangeTracker();
 
-      //  PRUEBA 2: borramos un perfil, agregamos otro, cambiamos de Persona y un par de propiedades
+      //  PRUEBA 2: cambiar todos los perfiles que tiene un Usuario
+      //
+          //  CrearUsuarioCompleto();
+          //  CambiarSoloPerfiles();
+
+      //  PRUEBA 3: borramos un perfil, agregamos otro, cambiamos de Persona y un par de propiedades
       //
           //  CrearUsuarioCompleto();
           //  CambiarCompleto();
@@ -43,7 +47,16 @@ namespace TestEF
 
       //  Creo Persona, Usuario y le asigno al menos un Perfil porque de otra manera la validacion en SecurityServices
       //  fallaria
-      Persona persona = CrearPersonaInternal("Lisa", "Simpson", "lisa_simp@mensa.org", 8);
+      //  primero chequeamos que la Persona no exista, si no existe la creamos
+      Persona persona ;
+
+      persona = (from per in DB.Contexto.Personas
+                      where per.Apellido == "Simpson" && per.Nombre == "Lisa"
+                      select per).SingleOrDefault();
+      
+      if (persona == null)
+        persona = CrearPersonaInternal("Lisa", "Simpson", "lisa_simp@mensa.org", 8);
+
       user = CrearUsuarioInternal("lsimpson", persona);
 
       //  lo saco directamente del OMBContext pero deberia hacerlo de SecServices (pensar que se utilizaria tambien
@@ -99,13 +112,62 @@ namespace TestEF
       user.Perfiles.RemoveWhere(perf => perf.ID == 2);
       user.Perfiles.Add(perfiles.Single());
 
-      Persona abuelo = (from per in DB.Contexto.Personas where per.Nombre == "Abraham" select per).Single();
-      user.Persona = abuelo;
+      Persona nuevaPersona;
+
+      //  primero chequeamos que la Persona no exista, si no existe la creamos
+      nuevaPersona = (from per in DB.Contexto.Personas where per.Apellido == "Olsen" && per.Nombre == "Mona Penelope" 
+                      select per).SingleOrDefault();
+      
+      if (nuevaPersona == null)
+        nuevaPersona = CrearPersonaInternal("Mona Penelope", "Olsen", "mona@fugitivos.org", 78);
+
+      user.Persona = nuevaPersona;
 
       user.EnforceExpiration = true;
       user.FechaExpiracionPassword = DateTime.Now.AddDays(120);
       
       serv.UpdateUsuario(user, "123-lisa");
+    }
+
+    /// <summary>
+    /// No tocamos la DB, solo verificamos que EF hace el seguimiento de todos los objetos que se han modificado
+    /// </summary>
+    public static void ProbarChangeTracker()
+    {
+      Usuario user = (from usr in DB.Contexto.Usuarios where usr.Login == "mburns" select usr).SingleOrDefault();
+
+      Usuario otroUser = (from usr in DB.Contexto.Usuarios where usr.Login == "hsimpson" select usr).SingleOrDefault();
+
+      //  otroUser no vamos a tocarlo
+
+      if (user != null)
+      {
+        //  cambiamos algunos datos del Usuario
+        user.Enabled = false;
+        user.MustChangePass = true;
+
+        //  cambiamos algunos datos de la Persona asociada
+        user.Persona.Localidad = "Springfield";
+        user.Persona.Telefono = "555-4125";
+
+        //  Consultamos el change-tracker a ver que cambio...
+        //  Iteramos cada entidad que es seguida por el change tracker
+        //
+        foreach (var entidad in DB.Contexto.ChangeTracker.Entries())
+        {
+          Console.WriteLine("Entidad de tipo: {0}\nEstado: {1}",
+            entidad.Entity.GetType().FullName,
+            entidad.State);
+
+          //  mostramos una propiedad para identificar el objeto...
+          if (entidad.Entity is Usuario)
+            Console.WriteLine("Entidad tipo Usuario, propiedad Login = {0}", entidad.Property("Login").CurrentValue);
+          else
+            Console.WriteLine("Entidad tipo Persona, propiedad CorreoElectronico = {0}", entidad.Property("CorreoElectronico").CurrentValue);
+
+          Console.WriteLine(new string('=', 80));
+        }
+      }
     }
 
     public static Persona CrearPersonaInternal(string nombre, string apellido, string mail, int edad)

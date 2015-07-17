@@ -65,10 +65,17 @@ namespace EFTesting
     #endregion
 
     // Este metodo se invoca antes de cada llamada a un TestMethod
+    //
+    //  Tener en cuenta que en si en los test uso mas Usuarios deberia limpiarlos aca...
     [TestInitialize()]
     public void IniciarTest()
     {
+      SecurityServices serv = new SecurityServices();
+      
+      serv.EliminarUsuario("lsimpson");
+
       //  observar que para cada test creo un contexto fresh....sin entidades residuales
+      //  este contexto es diferente del que usa SecurityServices...
       Contexto = new OMBContext();
 
       //  siempre pongo el lazy load en false, la mayoria de las pruebas lo usa asi
