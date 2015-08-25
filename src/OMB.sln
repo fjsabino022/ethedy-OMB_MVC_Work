@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
-VisualStudioVersion = 12.0.31101.0
+VisualStudioVersion = 12.0.40629.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Entidades", "Entidades\Entidades.csproj", "{C9C15F5E-B8EE-47B1-9BF7-B056BF220027}"
 EndProject
@@ -16,6 +16,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestEF", "TestEF\TestEF.csproj", "{FDB7E94E-D2A5-41A4-93B6-6B07226679C6}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EFTesting", "EFTesting\EFTesting.csproj", "{DA2D1459-E2AC-457B-B675-4C6C2FB5592C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MvcOMB", "MVCOOMB\MvcOMB.csproj", "{28C18F21-55A3-437D-9D98-48101A3D702D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -51,6 +53,10 @@ Global
 		{DA2D1459-E2AC-457B-B675-4C6C2FB5592C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DA2D1459-E2AC-457B-B675-4C6C2FB5592C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DA2D1459-E2AC-457B-B675-4C6C2FB5592C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{28C18F21-55A3-437D-9D98-48101A3D702D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{28C18F21-55A3-437D-9D98-48101A3D702D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{28C18F21-55A3-437D-9D98-48101A3D702D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{28C18F21-55A3-437D-9D98-48101A3D702D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
