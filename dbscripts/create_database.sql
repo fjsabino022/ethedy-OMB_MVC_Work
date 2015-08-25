@@ -24,6 +24,9 @@
   https://support.microsoft.com/en-us/kb/321185
 
 */
+--
+--  PASO 1: chequear datos del servidor
+--
 select 
 	SERVERPROPERTY('Edition') as Edicion
 	, SERVERPROPERTY('EngineEdition') as Edicion_Motor
@@ -31,14 +34,21 @@ select
 	, SERVERPROPERTY('ProductLevel') as Nivel_Producto
 
 
-/*
-  Creamos la base de datos 
-*/
+--
+--  PASO 2: drop de la DB si existe
+--
+use master
+
+drop database OMB
+
+--
+--  PASO 3: creamos la base de datos 
+--
 create database OMB 
 on primary 
 (
   name = OMB_data,                                    --  nombre interno del objeto FILE (SQL)
-  filename = 'F:\DESARROLLO\OMB\database\OMB.mdf',    --  nombre windows del archivo
+  filename = 'F:\DESARROLLO\OMB_MVC_Work\database\OMB.mdf',    --  nombre windows del archivo
   size = 50MB,
   maxsize = unlimited,
   filegrowth = 10%
@@ -46,11 +56,11 @@ on primary
 log on                                                      --  log file, para guardar transacciones temporalmente
 (
   name = OMB_log,
-  filename = 'F:\DESARROLLO\OMB\database\OMB_log.mdf',
+  filename = 'F:\DESARROLLO\OMB_MVC_Work\database\OMB_log.mdf',
   size = 5MB,
   maxsize = unlimited,
   filegrowth = 10%
 )
-;
+
 
 

@@ -1,4 +1,4 @@
-﻿
+﻿use OMB
 
 create table Personas
 (
@@ -24,7 +24,7 @@ create table Perfiles
 create table Usuarios
 (
   Login                       varchar(20)           not null      primary key,
-  Password                    varchar(50)           not null,
+  Password                    varchar(50)           not null	    default('alskdjfhg'),
   FechaExpiracionPassword     date,
   FechaLastLogin              smalldatetime,
   MustChangePass              bit,
@@ -35,9 +35,9 @@ create table Usuarios
   constraint FK_Usuarios_Personas foreign key (ID_Persona) references Personas(ID)
 )
 
-alter table Usuarios
-	add constraint Password_Default
-	default 'alskdjfhg' for Password
+--  alter table Usuarios
+--	add constraint Password_Default
+--	default 'alskdjfhg' for Password
 
 create table Usuarios_Perfiles
 (

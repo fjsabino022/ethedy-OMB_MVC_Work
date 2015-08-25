@@ -1,13 +1,12 @@
 ﻿use OMB
-go;
 
+/*
+  select * from Personas
+  select * from Usuarios
+  select * from Usuarios_Perfiles
 
-select * from Personas
-select * from Usuarios
-select * from Usuarios_Perfiles
-
-select * from Perfiles
-
+  select * from Perfiles
+*/
 --  Tabla Personas
 --
 --

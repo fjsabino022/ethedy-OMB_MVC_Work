@@ -1,5 +1,5 @@
 use OMB
-go;
+go
 
 create procedure CambiarPasswordForLogin
   @login  varchar(20),
@@ -24,7 +24,7 @@ as begin
 
   select convert(int, @rows)
 end
-go;
+go
 
 create procedure ValidarPasswordForLogin
   @login  varchar(20),
@@ -35,11 +35,11 @@ as begin
   else
     select ValidarPass = -1
 end
-go;
 
-execute CambiarPasswordForLogin 'mbouvier', 'ringo'
 
-execute ValidarPasswordForLogin 'lsimpson', 'lisa-12'
+--  execute CambiarPasswordForLogin 'mbouvier', 'ringo'
+
+--  execute ValidarPasswordForLogin 'lsimpson', 'lisa-12'
 
 /*
 

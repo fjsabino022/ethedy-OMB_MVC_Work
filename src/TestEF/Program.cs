@@ -19,7 +19,7 @@ namespace TestEF
 
       //  PRUEBA 1: probando change tracker
       //
-            ProbarChangeTracker();
+          //  ProbarChangeTracker();
 
       //  PRUEBA 2: cambiar todos los perfiles que tiene un Usuario
       //
@@ -42,6 +42,8 @@ namespace TestEF
       SecurityServices serv = new SecurityServices();
       Usuario user;
 
+      Console.WriteLine("Eliminando posible usuario remanente lsimpson");
+
       //  Me aseguro que el usuario no exista, solo para fines de prueba, no es un metodo que deba existir en la realidad
       serv.EliminarUsuario("lsimpson");
 
@@ -50,13 +52,18 @@ namespace TestEF
       //  primero chequeamos que la Persona no exista, si no existe la creamos
       Persona persona ;
 
+      Console.WriteLine("Chequeando si existe Persona para Lista Simpson");
       persona = (from per in DB.Contexto.Personas
                       where per.Apellido == "Simpson" && per.Nombre == "Lisa"
                       select per).SingleOrDefault();
-      
-      if (persona == null)
-        persona = CrearPersonaInternal("Lisa", "Simpson", "lisa_simp@mensa.org", 8);
 
+      if (persona == null)
+      {
+        Console.WriteLine("Creando Persona Lisa Simpson");
+        persona = CrearPersonaInternal("Lisa", "Simpson", "lisa_simp@mensa.org", 8);
+      }
+
+      Console.WriteLine("Creando Usuario a partir de Persona");
       user = CrearUsuarioInternal("lsimpson", persona);
 
       //  lo saco directamente del OMBContext pero deberia hacerlo de SecServices (pensar que se utilizaria tambien
@@ -134,6 +141,8 @@ namespace TestEF
     /// </summary>
     public static void ProbarChangeTracker()
     {
+      Console.WriteLine("Probando conexion a base de datos y DbSet<Usuario>");
+
       Usuario user = (from usr in DB.Contexto.Usuarios where usr.Login == "mburns" select usr).SingleOrDefault();
 
       Usuario otroUser = (from usr in DB.Contexto.Usuarios where usr.Login == "hsimpson" select usr).SingleOrDefault();
@@ -142,6 +151,8 @@ namespace TestEF
 
       if (user != null)
       {
+        Console.WriteLine("Conexion y DbSet OK");
+
         //  cambiamos algunos datos del Usuario
         user.Enabled = false;
         user.MustChangePass = true;
@@ -150,6 +161,9 @@ namespace TestEF
         user.Persona.Localidad = "Springfield";
         user.Persona.Telefono = "555-4125";
 
+        Console.WriteLine("Probando ChangeTracker");
+        Console.WriteLine("Resultado esperado: un objeto Usuario y un objeto Persona modificados. Un objeto Usuario sin modificar");
+        Console.WriteLine("===========================================================================");
         //  Consultamos el change-tracker a ver que cambio...
         //  Iteramos cada entidad que es seguida por el change tracker
         //
