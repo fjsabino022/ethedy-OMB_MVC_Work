@@ -1,0 +1,14 @@
+﻿@model Servicios.Sesion
+
+@{
+    ViewBag.Title = "Login Correcto!";
+    Layout = "~/Views/_MasterOMB.cshtml";
+    
+    var fullName = string.Format("{0} {1}", Model.UsuarioConectado.Persona.Nombre, Model.UsuarioConectado.Persona.Apellido);
+}
+
+<h1>Bienvenido @fullName </h1>
+<h3>Ha ingresado al sistema con el Perfil: @Model.Perfil.Descripcion </h3>
+
+<h2>Login OK</h2>
+
