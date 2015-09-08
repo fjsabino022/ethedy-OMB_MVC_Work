@@ -2,37 +2,22 @@
 <ArrayOfArrayOfArrayOfString xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <ArrayOfArrayOfString>
     <ArrayOfString>
-      <string>F:\DESARROLLO\OMB_MVC_Work\src\MVCOOMB\Views\Home\Login.cshtml</string>
-    </ArrayOfString>
-    <ArrayOfString>
-      <string>F:\DESARROLLO\OMB_MVC_Work\src\MVCOOMB\Controllers\HomeController.cs</string>
-    </ArrayOfString>
-    <ArrayOfString>
-      <string>F:\DESARROLLO\OMB_MVC_Work\src\MVCOOMB\Content\navbar_custom.css</string>
-    </ArrayOfString>
-    <ArrayOfString>
-      <string>f:\desarrollo\omb_mvc_work\src\mvcoomb\htmlpage1.html</string>
-    </ArrayOfString>
-    <ArrayOfString>
-      <string>F:\DESARROLLO\OMB_MVC_Work\src\MVCOOMB\Pruebas.html</string>
-    </ArrayOfString>
-    <ArrayOfString>
       <string>f:\desarrollo\omb_mvc_work\src\mvcoomb\views\_masteromb.cshtml</string>
     </ArrayOfString>
     <ArrayOfString>
-      <string>f:\desarrollo\omb_mvc_work\src\mvcoomb\app_start\routeconfig.cs</string>
+      <string>f:\desarrollo\omb_mvc_work\src\mvcoomb\views\home\loginok_v2.cshtml</string>
     </ArrayOfString>
     <ArrayOfString>
-      <string>F:\DESARROLLO\OMB_MVC_Work\src\Servicios\SecurityServices.cs</string>
+      <string>f:\desarrollo\omb_mvc_work\src\mvcoomb\views\home\loginok.cshtml</string>
     </ArrayOfString>
     <ArrayOfString>
-      <string>F:\DESARROLLO\OMB_MVC_Work\src\Data\SecurityRepository.cs</string>
+      <string>f:\desarrollo\omb_mvc_work\src\mvcoomb\views\home\perfilselect.cshtml</string>
     </ArrayOfString>
     <ArrayOfString>
-      <string>F:\DESARROLLO\OMB_MVC_Work\src\Data\DB.cs</string>
+      <string>f:\desarrollo\omb_mvc_work\src\mvcoomb\views\home\login.cshtml</string>
     </ArrayOfString>
     <ArrayOfString>
-      <string>F:\DESARROLLO\OMB_MVC_Work\src\Data\OMBContext.cs</string>
+      <string>f:\desarrollo\omb_mvc_work\src\mvcoomb\controllers\homecontroller.cs</string>
     </ArrayOfString>
   </ArrayOfArrayOfString>
 </ArrayOfArrayOfArrayOfString>

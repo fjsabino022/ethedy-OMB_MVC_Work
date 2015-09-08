@@ -1,0 +1,51 @@
+﻿<UserControl x:Class="WindowsOMB.View.LoginCredenciales"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d" 
+             xmlns:local="clr-namespace:WindowsOMB.ViewModel"
+             d:DesignHeight="300" d:DesignWidth="300" FontFamily="Segoe UI" FontSize="14" 
+             Loaded="ControlLoaded">
+  <UserControl.Resources>
+    <Style TargetType="Button">
+      <Setter Property="Width" Value="100"></Setter>
+      <Setter Property="Margin" Value="10"></Setter>
+      <Setter Property="Padding" Value="5"></Setter>
+    </Style>
+    <Style TargetType="TextBox">
+      <Style.Triggers>
+        <Trigger Property="Validation.HasError" Value="true">
+          <Setter Property="ToolTip" 
+                  Value="{Binding RelativeSource={x:Static RelativeSource.Self}, Path=(Validation.Errors).CurrentItem.ErrorContent}"
+                  />
+        </Trigger>
+      </Style.Triggers>
+    </Style>
+  </UserControl.Resources>
+  
+  <Grid>
+    <Grid.RowDefinitions>
+      <RowDefinition Height="Auto"></RowDefinition>
+      <RowDefinition Height="Auto"></RowDefinition>
+      <RowDefinition Height="*"></RowDefinition>
+      <RowDefinition Height="Auto"></RowDefinition>
+    </Grid.RowDefinitions>
+    <Grid.ColumnDefinitions>
+      <ColumnDefinition Width="Auto"></ColumnDefinition>
+      <ColumnDefinition Width="*"></ColumnDefinition>
+    </Grid.ColumnDefinitions>
+    <Label Grid.Column="0" Grid.Row="0" VerticalAlignment="Center">Usuario</Label>
+    <Label Grid.Column="0" Grid.Row="1" VerticalAlignment="Center">Password</Label>
+    <TextBox Name="txtUsuario" Grid.Column="1" Grid.Row="0" Margin="10" 
+             Text="{Binding Path=Login, UpdateSourceTrigger=PropertyChanged, ValidatesOnExceptions=true}"></TextBox>
+    <TextBox Name="txtPassword" Grid.Column="1" Grid.Row="1" Margin="10" 
+             Text="{Binding Path=Password, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=true}"
+             Foreground="{Binding ElementName=txtPassword, Path=Background}" 
+             GotFocus="PasswordFocus"></TextBox>
+    <StackPanel Grid.Row="3" Grid.ColumnSpan="2" Orientation="Horizontal" FlowDirection="RightToLeft">
+      <Button Name="btnIngresar" IsDefault="True" Content="Ingresar" Command="{Binding ComandoIngresar}"></Button>
+      <Button Name="btnCancelar" Content="Cancelar" IsCancel="True" Command="{Binding ComandoCancelar}"></Button>
+    </StackPanel>
+  </Grid>
+</UserControl>
