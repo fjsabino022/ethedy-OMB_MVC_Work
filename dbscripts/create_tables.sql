@@ -46,3 +46,18 @@ create table Usuarios_Perfiles
   constraint FK_Ususarios_Perfiles_Usuarios foreign key (Login) references Usuarios(Login),
   constraint FK_Ususarios_Perfiles_Perfiles foreign key (ID_Perfil) references Perfiles(ID_Perfil)
 )
+
+
+create table Libros 
+(
+  ISBN            varchar(13)       not null      primary key,
+  ISBN_Old        varchar(10)       null,
+  Editorial       varchar(50)       not null,
+  Titulo          varchar(100)      not null,
+  Subtitulo       varchar(200)      null,
+  Edicion         varchar(20)       null,
+  Autores         varchar(500)      not null,
+  Precio          smallmoney,
+  Imagen          varchar(300)
+)
+

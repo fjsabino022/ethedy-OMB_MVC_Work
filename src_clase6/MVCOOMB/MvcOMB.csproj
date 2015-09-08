@@ -19,7 +19,7 @@
     <IISExpressAnonymousAuthentication />
     <IISExpressWindowsAuthentication />
     <IISExpressUseClassicPipelineMode />
-    <AssemblyVersion>1.0.15251.72</AssemblyVersion>
+    <AssemblyVersion>1.0.15251.99</AssemblyVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -182,9 +182,14 @@
   <ItemGroup>
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\ListadosController.cs" />
+    <Compile Include="Controllers\MainMenuController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\ListadosViewModel.cs" />
+    <Compile Include="Models\MainMenuViewModel.cs" />
+    <Compile Include="Models\MenuInfo.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -197,6 +202,9 @@
     <Content Include="Views\Home\LoginOK.cshtml" />
     <Content Include="Views\Home\PerfilSelect.cshtml" />
     <Content Include="Views\Home\LoginOK_v2.cshtml" />
+    <Content Include="Views\MainMenu\Menu.cshtml" />
+    <Content Include="Views\Listados\List.cshtml" />
+    <Content Include="Views\Shared\DetalleLibro.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -206,7 +214,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Models\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Data\Data.csproj">

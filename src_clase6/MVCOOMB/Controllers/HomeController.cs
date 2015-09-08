@@ -88,5 +88,14 @@ namespace MvcOMB.Controllers
       Session["SESION_USER"] = newSesion = serv.CrearSesion(user, perfilElegido);
       return View("LoginOK_v2", newSesion);
     }
+
+    public ActionResult Logout()
+    {
+      Sesion sesionActual = Session["SESION_USER"] as Sesion;
+
+      sesionActual.Logout();
+      Session.Remove("SESION_USER");
+      return View("Inicio");
+    }
   }
 }

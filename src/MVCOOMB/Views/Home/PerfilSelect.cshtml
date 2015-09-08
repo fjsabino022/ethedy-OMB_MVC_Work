@@ -12,7 +12,7 @@
         <h3>Seleccione uno de los perfiles para ingresar</h3>
       </div>
 
-      @{ Html.BeginForm("SelectPerfil", "Home", new {login = @Model.Login});}
+      @using (@Html.BeginForm("SelectPerfil", "Home", new { login = @Model.Login })) { 
 
       <div class="panel-body">
 
@@ -27,7 +27,7 @@
         <button type="submit" class="btn btn-primary">Ingresar con Perfil</button>
       </div>
 
-      @{Html.EndForm();}
+      }
 
     </div>
   </div>

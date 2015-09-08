@@ -18,6 +18,7 @@ namespace Data
     public DbSet<Persona> Personas { get; set; }
     public DbSet<Usuario> Usuarios { get; set; }
     public DbSet<Perfil> Perfiles { get; set; }
+    public DbSet<Libro> Libros { get; set; }
 
     //  no es necesario un DbSet<Perfil> porque no se estan necesitando en este momento acceder a todos los perfiles, pero
     //  no significa que en otro escenario no seria necesario (por ejemplo, alta de usuario con seleccion de perfiles)
@@ -33,6 +34,7 @@ namespace Data
       modelBuilder.Configurations.Add(new UsuarioConfiguration());
       modelBuilder.Configurations.Add(new PersonaConfiguration());
       modelBuilder.Configurations.Add(new PerfilConfiguration());
+      modelBuilder.Configurations.Add(new LibroConfiguration());
     }
 
     public void MostrarCambios(string header = null)
@@ -92,4 +94,15 @@ namespace Data
     }
   }
 
+  public class LibroConfiguration : EntityTypeConfiguration<Libro>
+  {
+    public LibroConfiguration()
+    {
+      ToTable("Libros");
+      HasKey(libro => libro.ISBN13);
+      Property(libro => libro.ISBN13).HasColumnName("ISBN");
+      Property(libro => libro.ISBN10).HasColumnName("ISBN_Old");
+      Property(libro => libro.PathImagen).HasColumnName("Imagen");
+    }
+  }
 }

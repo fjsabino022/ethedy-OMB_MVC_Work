@@ -1,0 +1,13 @@
+﻿@model MvcOMB.Models.ListadosViewModel
+
+@{
+  ViewBag.Title = "Lista de los titulos en stock";
+  Layout = "~/Views/_MasterOMB.cshtml";
+}
+
+<h2>Lista de los libros existentes en la tienda</h2>
+
+@foreach (var libro in Model.GetAlllibros())
+{
+  @Html.Partial("DetalleLibro", libro)
+}
