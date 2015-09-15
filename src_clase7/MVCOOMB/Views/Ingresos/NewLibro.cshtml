@@ -1,0 +1,62 @@
+﻿@model Entidades.Libro
+
+@{
+  ViewBag.Title = "NewLibro";
+  Layout = "~/Views/_MasterOMB.cshtml";
+}
+
+<div class="row">
+  <div class="col-md-7 col-md-offset-3">
+    <div class="panel panel-primary">
+      <div class="panel-heading">
+        <h3>Ingresar un nuevo libro</h3>
+      </div>
+
+      @using (Html.BeginForm("Agregar", "Ingresos"))
+      {
+        @Html.ValidationSummary()
+
+        <div class="panel-body">
+          <div class="form-group col-md-6">
+            @Html.LabelFor(m => m.ISBN13, "ISBN (13) Nuevo Sistema")
+            @Html.TextBoxFor(m => m.ISBN13, new { @class = "form-control" })
+          </div>
+
+          <div class="form-group col-md-6">
+            @Html.LabelFor(m => m.ISBN10, "ISBN sistema anterior")
+            @Html.TextBoxFor(m => m.ISBN10, new { @class = "form-control" })
+          </div>
+
+          <div class="form-group">
+            @Html.LabelFor(m => m.Titulo, new { @class = "control-label" })
+            @Html.TextBoxFor(m => m.Titulo, new { @class = "form-control" })
+          </div>
+
+          <div class="form-group">
+            @Html.LabelFor(m => m.Editorial, new { @class = "control-label" })
+            @Html.TextBoxFor(m => m.Editorial, new { @class = "form-control" })
+          </div>
+
+          <div class="form-group">
+            @Html.LabelFor(m => m.Autores)
+            @Html.TextAreaFor(m => m.Autores, new { @class = "form-control" })
+          </div>
+
+          <div class="form-group">
+            @Html.LabelFor(m => m.Precio)
+            @Html.TextBoxFor(m => m.Precio, new { @class = "form-control" })
+          </div>
+
+        </div>
+
+        <div class="panel-footer text-right">
+          <button class="btn btn-primary ">Ingresar</button>
+        </div>
+
+      }
+
+    </div>
+  </div>
+</div>
+
+
