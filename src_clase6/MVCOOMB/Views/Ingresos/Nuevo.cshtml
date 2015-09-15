@@ -1,0 +1,58 @@
+﻿@model Entidades.Libro
+
+@{
+    ViewBag.Title = "Nuevo";
+    Layout = "~/Views/_MasterOMB.cshtml";
+}
+
+<h2>Nuevo</h2>
+
+<div class="row">
+    
+    <div class="col-lg-8 col-lg-offset-2">
+        <div class="panel panel-primary">
+            
+            <div class="panel-heading">
+                <h3>Ingreso de Nuevo Libro</h3>
+            </div>
+            
+            @using (Html.BeginForm("AddNew","Ingresos"))
+            {
+                <div class="panel-body">
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.ISBN13, "ISBN Formato Nuevo")
+                        @Html.TextBoxFor(m => m.ISBN13, new { @class= "form-control"})
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.ISBN10, "ISBN Formato Antiguo")
+                        @Html.TextBoxFor(m => m.ISBN10, new { @class = "form-control" })
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.Titulo)
+                        @Html.TextBoxFor(m => m.Titulo, new { @class = "form-control" })
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.Editorial)
+                        @Html.TextBoxFor(m => m.Editorial, new { @class = "form-control" })
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.Autores, "Lista de Actores, uno por linea")
+                        @Html.TextAreaFor(m => m.Autores, new { @class = "form-control" })
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.Precio)
+                        @Html.TextBoxFor(m => m.Precio, new { @class = "form-control" })
+                    </div>    
+
+                </div>
+                <div class="panel-footer">
+                    <button class="btn btn-primary">Agregar</button>
+
+                </div>
+            }
+            
+        </div>
+    </div>
+
+</div>
+

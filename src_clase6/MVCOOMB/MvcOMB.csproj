@@ -212,6 +212,7 @@
     <Content Include="Views\MainMenu\Menu.cshtml" />
     <Content Include="Views\Listados\List.cshtml" />
     <Content Include="Views\Shared\DetalleLibro.cshtml" />
+    <Content Include="Views\Ingresos\Nuevo.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -221,7 +222,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Views\Ingresos\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Data\Data.csproj">
