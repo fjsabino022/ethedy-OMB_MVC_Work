@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 
 using Entidades;
+using Data;
 
 
 namespace MvcOMB.Controllers
@@ -24,9 +25,18 @@ namespace MvcOMB.Controllers
     [HttpPost]
     public ActionResult AddNew(Libro nuevoLibro)
     {
-        
-        
-        return null;
+        OMBContext ctx = DB.Contexto;
+
+        try
+        {
+            ctx.Libros.Add(nuevoLibro);
+            ctx.SaveChanges();
+            return View("Resultado");
+        }
+        catch
+        {
+            return new HttpUnauthorizedResult();
+        }
     }
 
 
