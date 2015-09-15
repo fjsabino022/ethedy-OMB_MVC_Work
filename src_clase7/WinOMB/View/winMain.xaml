@@ -1,0 +1,57 @@
+﻿<syncfusion:RibbonWindow x:Class="WindowsOMB.View.winMain"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:syncfusion="http://schemas.syncfusion.com/wpf"
+        Title="Sistema de Ventas - OMB" Height="700" Width="900"
+        syncfusion:SkinStorage.VisualStyle="Office2010Silver" 
+        WindowStartupLocation="CenterScreen" Loaded="WindowLoaded">
+  <syncfusion:RibbonWindow.StatusBar>
+    <syncfusion:RibbonStatusBar Name="sbarMain" Height="30">
+      <Grid>
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="Auto"></ColumnDefinition>
+          <ColumnDefinition Width="Auto"></ColumnDefinition>
+          <ColumnDefinition Width="*"></ColumnDefinition>
+          <ColumnDefinition Width="Auto"></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <Image Grid.Column="0" Width="24" VerticalAlignment="Center" Margin="5, 0">
+          <Image.Style>
+            <Style>
+              <Style.Triggers>
+                <DataTrigger Binding="{Binding UserConnected}" Value="False">
+                  <Setter Property="Image.Source" Value="/Imagenes/user_sleep.png"></Setter>
+                </DataTrigger>
+                <DataTrigger Binding="{Binding UserConnected}" Value="True">
+                  <Setter Property="Image.Source" Value="/Imagenes/session.png"></Setter>
+                </DataTrigger>
+              </Style.Triggers>
+            </Style>
+          </Image.Style>
+        </Image>
+
+        <TextBlock Grid.Column="1" Text="{Binding UserConnectedName}" VerticalAlignment="Center" Margin="5, 0"></TextBlock>
+      </Grid>
+    </syncfusion:RibbonStatusBar>
+  </syncfusion:RibbonWindow.StatusBar>
+
+  <DockPanel LastChildFill="False">
+    <syncfusion:Ribbon Name="ribMain" DockPanel.Dock="Top">
+      <syncfusion:Ribbon.ApplicationMenu>
+        <syncfusion:ApplicationMenu IsPopupOpen="False" ApplicationButtonImage="/Imagenes/idea-48.png" 
+                                    ApplicationButtonImageHeight="24" 
+                                    ApplicationButtonImageWidth="24" VerticalAlignment="Center"></syncfusion:ApplicationMenu>
+      </syncfusion:Ribbon.ApplicationMenu>
+      
+      <syncfusion:RibbonTab Caption="Inicio" IsChecked="False">
+        <syncfusion:RibbonBar Header="Seguridad">
+          <syncfusion:RibbonButton SizeForm="Large" Label="Login" 
+                                   Command="{Binding LoginCommand}" LargeIcon="/Imagenes/key-48.png" />
+          <syncfusion:RibbonButton SizeForm="Large" Label="Logout" 
+                                   Command="{Binding LogoutCommand}" LargeIcon="/Imagenes/export-48.png" />
+        </syncfusion:RibbonBar>
+      </syncfusion:RibbonTab>
+
+    </syncfusion:Ribbon>
+  </DockPanel>
+  
+</syncfusion:RibbonWindow>

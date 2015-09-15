@@ -1,0 +1,46 @@
+﻿@model MvcOMB.Models.MainMenuViewModel
+
+@{
+}
+
+<nav class="navbar navbar-default navbar-custom">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="#">OMB!</a>
+    </div>
+
+    <div class="collapse navbar-collapse">
+      @if (Model.IsUserLoged)
+      {
+        <ul class="nav navbar-nav">
+          @foreach (var item in Model.GetMenuApropiadoFull())
+          {
+            <li class="@(ViewBag.MenuActual == item.Etiqueta ? "active" : "")">
+              @Html.ActionLink(item.Etiqueta,
+                               item.Accion ?? "Default",
+                               item.Controlador ?? "MainMenu",
+                               new { menuActual = item.Etiqueta }, null)
+            </li>
+          }
+        </ul>
+      }
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+          @if (Model.IsUserLoged)
+          {
+            @Html.ActionLink("Logut", "Logout", "Home")
+          }
+          else
+          {
+            @Html.ActionLink("Login", "Login", "Home")
+          }
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>

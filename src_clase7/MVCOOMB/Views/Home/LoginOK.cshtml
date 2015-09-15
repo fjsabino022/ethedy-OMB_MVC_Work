@@ -1,0 +1,11 @@
+﻿@model Entidades.Usuario
+
+@{
+  ViewBag.Title = "LoginOK";
+  Layout = "~/Views/_MasterOMB.cshtml";
+  var fullName = string.Format("{0} {1}", Model.Persona.Nombre, Model.Persona.Apellido);
+}
+
+<h1>Bienvenido @fullName </h1>
+<h2>LoginOK</h2>
+

@@ -1,0 +1,45 @@
+﻿@model Entidades.Usuario
+
+@{
+    ViewBag.Title = "Seleccionar Perfil";
+    Layout = "~/Views/_MasterOMB.cshtml";
+}
+
+<div class="row">
+  <div class="col-md-7 col-md-offset-2">
+    <div class="panel panel-primary">
+      <div class="panel-heading">
+        <h3>Seleccione uno de los perfiles para ingresar</h3>
+      </div>
+
+      @using (@Html.BeginForm("SelectPerfil", "Home", new { login = @Model.Login })) { 
+
+        <div class="panel-body">
+
+          <div class="form-group">
+            @Html.DropDownList("cbPerfiles",
+              @Model.Perfiles.Select(x => new SelectListItem() {Text = x.Descripcion, Value = x.Nombre}),
+              new {@class = "form-control", autofocus = "autofocus"})
+          </div>
+        </div>
+
+        <div class="panel-footer">
+          <button type="submit" class="btn btn-primary">Ingresar con Perfil</button>
+        </div>
+      }
+
+    </div>
+  </div>
+</div>
+
+<!--
+      Por defecto regresa al Login...o hago otro metodo con otros argumentos o tengo que redireccionar a otra accion que me
+      parece seria lo mas limpio...
+
+      <form action="/Home/Login" method="post">
+      <select>
+          <option value="PDV">Atencion al cliente, facturacion, caja</option>
+          <option value="AsistenciaCliente">Acceso a terminales de ayuda al cliente, busqueda de productos y precios</option>
+      </select>
+      </form>
+  -->

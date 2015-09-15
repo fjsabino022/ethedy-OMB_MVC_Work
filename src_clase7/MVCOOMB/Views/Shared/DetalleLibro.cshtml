@@ -1,0 +1,21 @@
+﻿@model Entidades.Libro
+
+<div class="container">
+  <div class="row">
+    <div class="well col-lg-8 col-lg-offset-2">
+      <div class="row">
+        <div class="col-lg-8 col-md-6 col-sm-3">
+          <h2 style="font-weight: bold;">@Model.Titulo</h2>
+          <img src="@Model.PathImagen" width="150" />
+        </div>
+        <div class="col-lg-4 col-md-6 col-sm-9">
+          <h3>
+            Nuestro Precio
+            <span class="label label-primary"> @( Model.Precio.HasValue ? Model.Precio.Value.ToString("c") : "") </span>
+          </h3>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
