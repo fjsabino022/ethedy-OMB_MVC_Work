@@ -25,22 +25,51 @@ namespace MvcOMB.Controllers
     [HttpPost]
     public ActionResult AddNew(Libro nuevoLibro)
     {
+        
         OMBContext ctx = DB.Contexto;
 
-        try
+        //VALIDACIONES, ESTA BUENISIMO COMO SE HACEN
+        //manejamos las validaciones de cada campo
+        if (String.IsNullOrEmpty(nuevoLibro.ISBN13))
         {
-            ctx.Libros.Add(nuevoLibro);
-            ctx.SaveChanges();
-            return View("Resultado");
+            ModelState.AddModelError("ISBN13", "El campo debe estar completo");
         }
-        catch
+        if (String.IsNullOrEmpty(nuevoLibro.ISBN10))
         {
-            return new HttpUnauthorizedResult();
+            ModelState.AddModelError("ISBN10", "El campo debe estar completo");
+        }
+        if (String.IsNullOrEmpty(nuevoLibro.Titulo))
+        {
+            ModelState.AddModelError("Titulo", "El campo debe estar completo");
+        }
+        else
+        {    
+            //cuando no le pones el atributo de la PROPIEDAd, se consideran que son errores del MODELO
+            if (nuevoLibro.Titulo.Contains("xxx"))
+            {
+                ModelState.AddModelError("", "Esta Librerìa es porno");
+            }
+        }
+
+
+        //SI EL MODELO ES VALIDO
+        if (ModelState.IsValid)
+        {
+            try
+            {
+                ctx.Libros.Add(nuevoLibro);
+                ctx.SaveChanges();
+                return View("Resultado");
+            }
+            catch
+            {
+                return new HttpUnauthorizedResult();
+            }
+        }
+        else
+        {
+            return View("Nuevo", nuevoLibro);
         }
     }
-
-
-
-
   }
 }
